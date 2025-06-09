@@ -35,3 +35,30 @@ def create_user():
     return jsonify(response.json()), response.status_code
 
 app.run(port=5000, host='localhost', debug=True)
+
+
+# Deativar Lembretes
+def desativar_lembretes():
+    data= request.json
+
+    payload= {
+        "grupId": GROUP_ID,
+        "userPhone": data ['userPhone'],
+        "email": data ['email'],
+        "set": {
+            "preferences":{
+            "reminders":False
+            }
+        }
+    }
+
+    headers = {
+      "Authorization": "Bearer {BEARER_TOKEN}",
+      "Content-type":"application/json"
+    }
+
+    response = request.post(
+        "https://api.dieta.ai/reminders",
+        json=payload,
+        headers=headers
+    )
